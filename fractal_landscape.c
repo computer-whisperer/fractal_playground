@@ -239,7 +239,7 @@ float faceDisplacement(struct Face * face, struct Point * point) {
 }
 
 void renderPoint(struct Point * point) {
-	//glColor3f(0, 0, point->y*2+0.5);
+	glColor3f(0, 0, point->y*2+0.5);
 	glVertex3f(point->x, point->y, point->z);
 }
 
@@ -311,11 +311,11 @@ void display(void)
    glRotatef(cameraYaw, 0, 1, 0);
    glTranslatef(-cameraX, -cameraY, -cameraZ);
 
-   glColor3f(0, 0, 0);
+   //glColor3f(0, 0, 0);
    renderWorld(GL_TRIANGLES);
-   glTranslatef(0, 0.0001, 0);
-   glColor3f(0, 0, 100);
-   renderWorld(GL_LINES);
+   //glTranslatef(0, 0.001, 0);
+   //glColor3f(0, 0, 100);
+   //renderWorld(GL_LINES);
    
    glPopMatrix();
 
@@ -368,7 +368,8 @@ void update(void)
   // Save time_now for next time
   last_idle_time = time_now;
   
-  // Reassign depth
+  // Reassign depth 
+
   struct Face * currFace = faceSet.head;
   struct Point point = {cameraX, cameraY, cameraZ, 0};
   while (currFace != NULL) {
@@ -381,15 +382,16 @@ void update(void)
         faceSet.head = newFace;
       currFace = newFace;
 	  }
+
     else if (currFace->generation > idealLevel + 1){
 		  struct Face * newFace = demoteFace(currFace);
 		  if (currFace == faceSet.head)
         faceSet.head = newFace;
       currFace = newFace;
-	  }
-    else {
+	}
+	  else {
       currFace = currFace->nextInOrder;
-    }
+		}
   }
 
   // Force redraw
@@ -489,7 +491,7 @@ int main(int argc, char** argv)
   pointC->x = 0;
   pointC->y = 0;
   pointC->z = 2;
-  pointC->seed = 8;
+  pointC->seed = 0;
   
   struct Edge * edgeA = malloc(sizeof(struct Edge));
   edgeA->points[0] = pointA;
@@ -520,7 +522,7 @@ int main(int argc, char** argv)
   
   // Uniform densify
   /*
-  for (int i = 0; i < 9; i++){
+  for (int i = 0; i < 10; i++){
 	  struct Face * currFace = faceSet.head;
 	  while (currFace != NULL) {
 		  if (currFace->generation == i){
@@ -533,8 +535,8 @@ int main(int argc, char** argv)
 		      currFace = currFace->nextInOrder;
 	      }
 	  }
-  }*/
-  
+  }
+  */
   // Scaling densify
   /*
   struct Face * currFace = faceSet.head;
