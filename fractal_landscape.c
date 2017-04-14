@@ -372,7 +372,7 @@ void update(void)
   struct Face * currFace = faceSet.head;
   struct Point point = {cameraX, cameraY, cameraZ, 0};
   while (currFace != NULL) {
-	  float dist = fmax(0.00001, faceDisplacement(currFace, &point));
+	  float dist = fmax(0.0001, faceDisplacement(currFace, &point));
 //    int idealLevel = (int)fmin(log(50/dist - 10), maxLevel);
     int idealLevel = fmax(2, log(200/dist)/log(2));
 	  if (currFace->generation < idealLevel){
@@ -483,13 +483,13 @@ int main(int argc, char** argv)
   pointB->x = 2;
   pointB->y = 0;
   pointB->z = -1;
-  pointB->seed = 1;
+  pointB->seed = 3;
   
   struct Point * pointC = malloc(sizeof(struct Point));
   pointC->x = 0;
   pointC->y = 0;
   pointC->z = 2;
-  pointC->seed = 1;
+  pointC->seed = 8;
   
   struct Edge * edgeA = malloc(sizeof(struct Edge));
   edgeA->points[0] = pointA;
